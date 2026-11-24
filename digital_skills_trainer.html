@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Skills — HTML, CSS и PowerPoint</title>
+<style>
+:root{--bg:#0b1020;--panel:#151d35;--panel2:#1c2847;--text:#f4f7ff;--muted:#aab6d3;--blue:#5b8cff;--cyan:#35d6cf;--purple:#a78bfa;--good:#43d49a;--bad:#ff7185}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#1b2b55 0,transparent 36%),var(--bg);color:var(--text);font:16px/1.55 Arial,sans-serif}
+header{padding:34px 18px 24px;text-align:center;background:linear-gradient(135deg,#17264a,#10172c 70%);border-bottom:1px solid #29385d}
+.logo{display:inline-block;padding:7px 13px;border:1px solid #48649b;border-radius:30px;color:#9ec3ff;font-size:12px;letter-spacing:2px}
+h1{font-size:clamp(28px,6vw,48px);line-height:1.12;margin:17px 0 10px}header p{color:var(--muted);max-width:680px;margin:auto}
+.wrap{max-width:1050px;margin:24px auto;padding:0 15px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.stat,.panel,.module{background:rgba(21,29,53,.94);border:1px solid #2a385b;border-radius:17px;padding:16px}
+.stat strong{display:block;font-size:23px;color:var(--cyan)}.stat span{font-size:12px;color:var(--muted)}
+.progress{height:9px;background:#283452;border-radius:20px;overflow:hidden;margin-top:10px}.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:.3s}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.tab{border:1px solid #34466f;background:#151e36;color:var(--text);padding:14px 8px;border-radius:14px;font-weight:bold;cursor:pointer}
+.tab.active{background:linear-gradient(135deg,#3159a7,#493c91);border-color:#779bff}
+.module{display:none}.module.active{display:block}.tag{font-size:12px;color:var(--cyan);letter-spacing:1.4px;text-transform:uppercase}
+h2{margin:5px 0 8px;font-size:27px}.muted{color:var(--muted)}.lesson{background:#10182d;border-left:3px solid var(--blue);padding:13px 15px;border-radius:9px;margin:14px 0}
+code,.code{font-family:Consolas,monospace;background:#0a1225;color:#9fe8e1;border-radius:6px;padding:2px 5px}
+.code{display:block;padding:13px;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #29395d;margin:10px 0}
+.practice{border:1px solid #34466f;background:#111a30;border-radius:13px;padding:15px;margin-top:16px}
+.question{font-weight:bold;margin-bottom:10px}.options{display:grid;gap:8px}
+.option{width:100%;text-align:left;background:#202c4b;color:var(--text);border:1px solid #3b4d75;border-radius:10px;padding:11px;cursor:pointer}
+.option:hover{border-color:#86aaff}.option.selected{border-color:var(--cyan);background:#173d4a}.option.correct{border-color:var(--good)}.option.wrong{border-color:var(--bad)}
+button:disabled{opacity:.55;cursor:not-allowed}.action{background:linear-gradient(110deg,#477cff,#7658d8);color:white;border:0;border-radius:10px;padding:11px 17px;font-weight:bold;cursor:pointer;margin-top:12px}
+.feedback{min-height:25px;margin-top:9px;font-size:14px}.good{color:var(--good)}.bad{color:var(--bad)}
+footer{text-align:center;color:var(--muted);padding:30px 15px;font-size:13px}
+#certificate{display:none;background:#fff;color:#17213b;padding:28px;border:10px double #526da8;border-radius:8px;text-align:center;margin-top:18px}
+#certificate h2{font-family:Georgia,serif;font-size:34px;color:#263e72}#certName{border:0;border-bottom:1px solid #8190aa;padding:8px;font-size:18px;text-align:center;max-width:100%;width:280px;background:transparent;color:#17213b}
+.small{font-size:13px}.hidden{display:none}
+@media(max-width:600px){.stats{gap:6px}.stat{padding:11px}.stat strong{font-size:19px}.tabs{gap:6px}.tab{font-size:13px;padding:12px 4px}}
+@media print{body{background:white}.no-print,header,.stats,.tabs,.module,footer{display:none!important}#certificate{display:block!important;margin:25px;border:10px double #526da8}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">DIGITAL SKILLS ACADEMY</div>
+ <h1>Тренажёр цифровых навыков</h1>
+ <p>Изучи HTML, CSS и Microsoft PowerPoint: короткие уроки, практические задания и проверка знаний. Пройди все три блока и получи сертификат.</p>
+</header>
+<main class="wrap">
+ <section class="stats">
+  <div class="stat"><strong id="doneCount">0 / 3</strong><span>Блоков завершено</span></div>
+  <div class="stat"><strong id="scoreCount">0%</strong><span>Общий результат тестов</span></div>
+  <div class="stat"><strong id="statusText">В процессе</strong><span>Статус обучения</span></div>
+ </section>
+ <div class="progress"><div id="mainProgress"></div></div>
+ <nav class="tabs no-print">
+  <button class="tab active" data-tab="html">01 · HTML</button>
+  <button class="tab" data-tab="css">02 · CSS</button>
+  <button class="tab" data-tab="ppt">03 · PowerPoint</button>
+ </nav>
+
+ <section class="module active" id="html">
+  <div class="tag">Блок 01 · Структура сайта</div><h2>Основы HTML</h2>
+  <p class="muted">HTML — язык разметки, который задаёт структуру веб-страницы: заголовки, абзацы, изображения, ссылки и другие элементы.</p>
+  <div class="lesson"><b>Главные теги</b><ul>
+   <li><code>&lt;h1&gt;</code> — главный заголовок.</li><li><code>&lt;p&gt;</code> — абзац текста.</li>
+   <li><code>&lt;a&gt;</code> — ссылка.</li><li><code>&lt;img&gt;</code> — изображение.</li>
+   <li><code>&lt;ul&gt;</code> и <code>&lt;li&gt;</code> — список.</li>
+   <li><code>&lt;head&gt;</code> — служебная информация, <code>&lt;body&gt;</code> — содержимое страницы.</li>
+  </ul></div>
+  <b>Пример HTML-документа</b>
+  <pre class="code">&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Моя страница&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Привет!&lt;/h1&gt;
+  &lt;p&gt;Это мой первый сайт.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+  <div class="practice"><b>Практика</b><p>Представь, что создаёшь страницу о себе. Напиши в поле заголовок и абзац, затем нажми «Проверить».</p>
+   <label>Заголовок <input id="htmlTitle" placeholder="Например: Моя страница" style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #52658d;background:#0b1429;color:white"></label>
+   <label>Абзац <textarea id="htmlText" placeholder="Напиши 1–2 предложения о своей странице" style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #52658d;background:#0b1429;color:white"></textarea></label>
+   <button class="action" onclick="checkPractice('html')">Проверить практику</button><div class="feedback" id="htmlPracticeFeedback"></div>
+  </div>
+  <div class="practice"><b>Тест по HTML</b><div id="htmlQuiz"></div></div>
+ </section>
+
+ <section class="module" id="css">
+  <div class="tag">Блок 02 · Внешний вид сайта</div><h2>Основы CSS</h2>
+  <p class="muted">CSS отвечает за оформление HTML-страницы: цвета, размеры, шрифты, отступы, расположение и адаптацию под экран.</p>
+  <div class="lesson"><b>Как устроено CSS-правило</b><p><code>селектор { свойство: значение; }</code></p>
+   <ul><li><code>color</code> — цвет текста.</li><li><code>background</code> — фон.</li><li><code>font-size</code> — размер шрифта.</li><li><code>margin</code> — внешний отступ.</li><li><code>padding</code> — внутренний отступ.</li><li><code>border</code> — граница элемента.</li></ul>
+  </div>
+  <b>Пример CSS</b><pre class="code">h1 {
+  color: royalblue;
+  font-size: 32px;
+}
+p {
+  background: #eeeeee;
+  padding: 12px;
+}</pre>
+  <div class="practice"><b>Практика</b><p>Выбери цвет заголовка и размер текста. Посмотри, как меняется пример.</p>
+   <label>Цвет заголовка <select id="cssColor" style="padding:9px;border-radius:8px"><option value="royalblue">Синий</option><option value="crimson">Красный</option><option value="seagreen">Зелёный</option><option value="darkorange">Оранжевый</option></select></label>
+   <label style="display:block;margin-top:10px">Размер: <input id="cssSize" type="range" min="20" max="42" value="30" oninput="updatePreview()"> <span id="cssSizeValue">30</span> px</label>
+   <div style="background:#f0f3fa;color:#17213b;border-radius:10px;padding:14px;margin-top:12px"><h3 id="cssPreview" style="color:royalblue;font-size:30px;margin:0 0 6px">Мой стильный заголовок</h3><p style="margin:0">Так будет выглядеть текст на странице.</p></div>
+   <button class="action" onclick="checkPractice('css')">Проверить практику</button><div class="feedback" id="cssPracticeFeedback"></div>
+  </div>
+  <div class="practice"><b>Тест по CSS</b><div id="cssQuiz"></div></div>
+ </section>
+
+ <section class="module" id="ppt">
+  <div class="tag">Блок 03 · Презентации</div><h2>Основы Microsoft PowerPoint</h2>
+  <p class="muted">PowerPoint — программа для создания презентаций из слайдов. Она помогает понятно и наглядно представить информацию.</p>
+  <div class="lesson"><b>Основные инструменты</b><ul>
+   <li><b>Новый слайд</b> — добавляет страницу презентации.</li><li><b>Макет</b> — задаёт расположение заголовка и содержимого.</li>
+   <li><b>Вставка</b> — добавляет изображения, фигуры, таблицы и диаграммы.</li><li><b>Переходы</b> — эффекты смены слайдов.</li>
+   <li><b>Анимация</b> — эффекты появления и движения объектов.</li><li><b>Показ слайдов</b> — запуск презентации для просмотра.</li>
+  </ul></div>
+  <div class="lesson"><b>Правила хорошей презентации</b><ul><li>Одна главная мысль на слайд.</li><li>Короткие и понятные фразы.</li><li>Достаточно крупный шрифт.</li><li>Контрастный текст и фон.</li><li>Изображения должны помогать объяснять тему.</li></ul></div>
+  <div class="practice"><b>Практика</b><p>Составь план мини-презентации из трёх слайдов. Заполни тему и краткое содержание каждого слайда.</p>
+   <input id="pptTopic" placeholder="Тема презентации" style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #52658d;background:#0b1429;color:white">
+   <textarea id="pptSlides" rows="4" placeholder="Слайд 1: Введение&#10;Слайд 2: Основная информация&#10;Слайд 3: Вывод" style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #52658d;background:#0b1429;color:white"></textarea>
+   <button class="action" onclick="checkPractice('ppt')">Проверить практику</button><div class="feedback" id="pptPracticeFeedback"></div>
+  </div>
+  <div class="practice"><b>Тест по PowerPoint</b><div id="pptQuiz"></div></div>
+ </section>
+
+ <section class="panel" style="margin-top:18px">
+  <div class="tag">Финальный этап</div><h2>Сертификат</h2>
+  <p class="muted">Чтобы открыть сертификат, заверши практику и набери не менее 70% в тесте каждого из трёх блоков.</p>
+  <label>Имя и фамилия для сертификата</label>
+  <input id="studentName" placeholder="Введи своё имя и фамилию" style="display:block;width:100%;max-width:420px;padding:12px;margin:8px 0;border-radius:9px;border:1px solid #52658d;background:#0b1429;color:white">
+  <button class="action no-print" onclick="makeCertificate()">Проверить условия и получить сертификат</button>
+  <div id="certMessage" class="feedback"></div>
+  <div id="certificate">
+   <div style="letter-spacing:4px;color:#526da8;font-weight:bold">DIGITAL SKILLS ACADEMY</div>
+   <h2>СЕРТИФИКАТ</h2><p>Настоящим подтверждается, что</p>
+   <h2 id="certificateName" style="border-bottom:1px solid #9aa8c0;padding:8px"></h2>
+   <p>успешно завершил(а) учебный тренажёр по трём направлениям:</p>
+   <h3>HTML · CSS · Microsoft PowerPoint</h3>
+   <p>Выполнены практические задания и итоговые тесты.</p>
+   <p id="certificateScore"></p>
+   <p style="margin-top:35px">Дата выдачи: <span id="certificateDate"></span></p>
+   <p style="color:#526da8;font-weight:bold">DIGITAL SKILLS ACADEMY</p>
+   <p class="small">Электронный учебный сертификат о прохождении данного тренажёра.</p>
+   <button class="action no-print" onclick="window.print()">Печать / Сохранить в PDF</button>
+  </div>
+ </section>
+</main>
+<footer>Учебный проект · HTML, CSS и PowerPoint · Прогресс сохраняется в этом браузере</footer>
+<script>
+const quizData={
+ html:[
+  {q:"Для чего используется HTML?",a:["Для структуры веб-страницы","Для обработки фотографий","Для монтажа видео","Для вычисления таблиц"],c:0,e:"HTML задаёт структуру и содержание веб-страницы."},
+  {q:"Какой тег создаёт абзац?",a:["<h1>","<p>","<img>","<a>"],c:1,e:"Тег <p> обозначает абзац текста."},
+  {q:"Какой тег задаёт ссылку?",a:["<div>","<title>","<a>","<ul>"],c:2,e:"Тег <a> создаёт ссылку, адрес указывают в href."},
+  {q:"В какой части документа размещают видимое содержимое страницы?",a:["<head>","<meta>","<title>","<body>"],c:3,e:"Внутри <body> находится содержимое страницы."},
+  {q:"Какой атрибут img содержит путь к изображению?",a:["src","href","class","alt"],c:0,e:"Атрибут src указывает адрес изображения."}
+ ],
+ css:[
+  {q:"Для чего нужен CSS?",a:["Создавать структуру текста","Оформлять внешний вид страницы","Хранить файлы сайта","Запускать браузер"],c:1,e:"CSS управляет оформлением и расположением элементов."},
+  {q:"Какое свойство меняет цвет текста?",a:["background","margin","color","padding"],c:2,e:"Свойство color задаёт цвет текста."},
+  {q:"Что задаёт padding?",a:["Внешний отступ","Размер шрифта","Цвет границы","Внутренний отступ"],c:3,e:"Padding — пространство между содержимым и границей элемента."},
+  {q:"Как записать класс-селектор для .card?",a:[".card","card#","<card>","*card"],c:0,e:"Класс в CSS выбирают с помощью точки перед именем."},
+  {q:"Какое свойство задаёт цвет фона?",a:["font-size","background-color","text-align","border-radius"],c:1,e:"background-color задаёт цвет фона элемента."}
+ ],
+ ppt:[
+  {q:"Из чего состоит презентация PowerPoint?",a:["Из вкладок браузера","Из веб-ссылок","Из слайдов","Из строк кода"],c:2,e:"Презентация состоит из отдельных слайдов."},
+  {q:"Как добавить изображение на слайд?",a:["Через проверку орфографии","Через режим чтения","Через заметки","Через вкладку «Вставка»"],c:3,e:"На вкладке «Вставка» можно добавить изображения и другие объекты."},
+  {q:"Что такое макет слайда?",a:["Готовая схема расположения элементов","Музыкальный файл","Пароль презентации","Цветовой фильтр"],c:0,e:"Макет определяет расположение заголовка и областей содержимого."},
+  {q:"Для чего нужны переходы?",a:["Для проверки текста","Для эффектов смены слайдов","Для сохранения пароля","Для изменения имени файла"],c:1,e:"Переходы определяют визуальный эффект при смене слайдов."},
+  {q:"Как запустить показ презентации?",a:["Открыть корзину","Закрыть программу","Использовать вкладку «Показ слайдов»","Переименовать папку"],c:2,e:"Вкладка «Показ слайдов» содержит команды запуска презентации."}
+ ]
+};
+const completed={html:false,css:false,ppt:false},scores={html:null,css:null,ppt:null};
+const practice={html:false,css:false,ppt:false};
+function renderQuiz(key){
+ const root=document.getElementById(key+"Quiz"),qs=quizData[key];let index=0,answers=[];
+ function draw(){
+  if(index>=qs.length){let score=answers.filter((v,i)=>v===qs[i].c).length/qs.length*100;scores[key]=score;completed[key]=score>=70;root.innerHTML=`<p class="${completed[key]?'good':'bad'}">Результат: ${Math.round(score)}%. ${completed[key]?'Блок теста пройден!':'Нужно набрать не менее 70%. Можно попробовать ещё раз.'}</p><button class="action" onclick="restartQuiz('${key}')">Пройти тест ещё раз</button>`;updateStats();return}
+  const q=qs[index];root.innerHTML=`<p class="muted small">Вопрос ${index+1} из ${qs.length}</p><div class="question">${q.q}</div><div class="options">${q.a.map((a,i)=>`<button class="option" onclick="choose('${key}',${i})">${String.fromCharCode(65+i)}. ${escapeHtml(a)}</button>`).join("")}</div><div class="feedback" id="${key}Feedback"></div><button class="action" id="${key}Next" disabled onclick="nextQuestion('${key}')">${index===qs.length-1?'Завершить тест':'Следующий вопрос'}</button>`;
+ }
+ window.quizState=window.quizState||{};window.quizState[key]={get index(){return index},set index(v){index=v},answers,draw};
+ window.chooseAnswer=(k,i)=>{let state=window.quizState[k],q=quizData[k][state.index];if(state.answers[state.index]!==undefined)return;state.answers[state.index]=i;let btns=document.querySelectorAll(`#${k}Quiz .option`);btns.forEach((b,n)=>{b.disabled=true;if(n===q.c)b.classList.add("correct");if(n===i&&i!==q.c)b.classList.add("wrong")});let f=document.getElementById(k+"Feedback");f.innerHTML=(i===q.c?'<span class="good">Верно! </span>':'<span class="bad">Пока неверно. </span>')+q.e;document.getElementById(k+"Next").disabled=false;};
+ draw();
+}
+function choose(k,i){window.chooseAnswer(k,i)}
+function nextQuestion(k){let s=window.quizState[k];s.index++;s.draw()}
+function restartQuiz(k){scores[k]=null;completed[k]=false;renderQuiz(k);updateStats()}
+function escapeHtml(s){return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")}
+function checkPractice(k){
+ let ok=false,msg="";
+ if(k==="html"){ok=document.getElementById("htmlTitle").value.trim().length>2&&document.getElementById("htmlText").value.trim().length>8;msg=ok?"Отлично! Заголовок и абзац заполнены.":"Добавь заголовок и содержательный абзац."}
+ if(k==="css"){updatePreview();ok=true;msg="Хорошо! Ты изменил цвет и размер заголовка в живом примере."}
+ if(k==="ppt"){ok=document.getElementById("pptTopic").value.trim().length>2&&document.getElementById("pptSlides").value.trim().split("\n").filter(x=>x.trim()).length>=3;msg=ok?"План из трёх слайдов готов!":"Укажи тему и заполни минимум три строки — по одной на слайд."}
+ document.getElementById(k+"PracticeFeedback").innerHTML=`<span class="${ok?'good':'bad'}">${msg}</span>`;
+ if(ok){practice[k]=true;updateStats()}
+}
+function updatePreview(){let c=document.getElementById("cssColor").value,s=document.getElementById("cssSize").value;document.getElementById("cssPreview").style.color=c;document.getElementById("cssPreview").style.fontSize=s+"px";document.getElementById("cssSizeValue").textContent=s}
+function updateStats(){let done=Object.keys(completed).filter(k=>completed[k]&&practice[k]).length;document.getElementById("doneCount").textContent=done+" / 3";let vals=Object.values(scores).filter(v=>v!==null);let avg=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;document.getElementById("scoreCount").textContent=avg+"%";document.getElementById("mainProgress").style.width=(done/3*100)+"%";document.getElementById("statusText").textContent=done===3?"Завершено":"В процессе"}
+function makeCertificate(){let name=document.getElementById("studentName").value.trim(),msg=document.getElementById("certMessage");let all=["html","css","ppt"].every(k=>completed[k]&&practice[k]);if(!name){msg.innerHTML='<span class="bad">Сначала введи имя и фамилию.</span>';return}if(!all){msg.innerHTML='<span class="bad">Пока не все условия выполнены. Нужно пройти практику и набрать минимум 70% в каждом тесте.</span>';return}document.getElementById("certificateName").textContent=name;document.getElementById("certificateScore").textContent="Результаты тестов: HTML "+Math.round(scores.html)+"% · CSS "+Math.round(scores.css)+"% · PowerPoint "+Math.round(scores.ppt)+"%";document.getElementById("certificateDate").textContent=new Date().toLocaleDateString("ru-RU");document.getElementById("certificate").style.display="block";msg.innerHTML='<span class="good">Поздравляем! Сертификат открыт. Его можно распечатать или сохранить в PDF.</span>';document.getElementById("certificate").scrollIntoView({behavior:"smooth"})}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".module").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active")}));
+Object.keys(quizData).forEach(renderQuiz);
+</script>
+</body>
+</html>
